@@ -162,4 +162,12 @@ pip-log.txt
 # Mac crap
 .DS_Store
 
-sites/default/settings.php
+#############
+## Drupal
+#############
+# Ignore configuration files that may contain sensitive information.
+sites/*/settings*.php
+
+# Ignore paths that contain user-generated content.
+sites/*/files
+sites/*/private
