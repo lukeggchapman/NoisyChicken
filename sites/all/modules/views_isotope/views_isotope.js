@@ -2,11 +2,18 @@
   $(document).ready(function() {
   
   var $container = $('#isotope-container');
-      
-  $container.isotope({
-    itemSelector: '.isotope-element',
-    //filter: '.nothing'
-  });
+
+  var isotopeArguments = { itemSelector: '.isotope-element' };
+
+  //Added by chappo to filter by global null contextual filter passing value in as a div element in the title
+  var $onload = $('#content').find('.isotope-onload');
+  if($onload.length) {
+    var filter = '.' + $onload.text().toLowerCase().replace(' ', '-');
+    $onload.remove();
+    isotopeArguments.filter = filter;
+  }
+
+  $container.isotope(isotopeArguments);
   
   var $optionSets = $('#isotope-options .option-set'),
       $optionLinks = $optionSets.find('a');
