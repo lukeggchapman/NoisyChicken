@@ -3,7 +3,13 @@
   
   var $container = $('#isotope-container');
 
-  var isotopeArguments = { itemSelector: '.isotope-element' };
+  var isotopeArguments = { 
+    itemSelector: '.isotope-element',
+    layoutMode: 'masonry',
+    masonry: {
+      columnWidth: 0
+    }
+  };
 
   //Added by chappo to filter by global null contextual filter passing value in as a div element in the title
   var $onload = $('#content').find('.isotope-onload');

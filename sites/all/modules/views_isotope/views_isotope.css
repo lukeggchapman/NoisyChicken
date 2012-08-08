@@ -81,9 +81,9 @@ body {
 }
 
 .isotope-element {
-  width: 150px;
-  height: 150px;
-  margin: 10px 10px;
+  /*width: 150px;
+  height: 150px;*/
+  margin: 2px 2px;
   float: left;
   overflow: hidden;
   position: relative;
@@ -95,6 +95,7 @@ body {
   width: 150px;
   margin: 0 auto;
   text-align: center;
+  vertical-align: bottom;
 }
 
 
