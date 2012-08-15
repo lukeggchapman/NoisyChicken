@@ -1,0 +1,24 @@
+<?php
+/**
+ * @file
+ * Install file for the SoundCloud field module.
+ *
+ *
+ * @author Attila Fekete - http://drupal.org/user/762986
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function soundcloudfield_field_schema($field) {
+  return array(
+    'columns' => array(
+      'url' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'sortable' => TRUE
+      ),
+    ),
+  );
+}
