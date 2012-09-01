@@ -42,8 +42,18 @@ class context_condition_user extends context_condition {
           if(in_array($role, $users_roles)){
             $this->condition_met($context, $role);
           }
-        } elseif (!in_array($role, $users_roles)) {
-          $this->condition_met($context, $role);
+        } else {
+          $negate_flag = true;
+          foreach ($this->fetch_from_context($context, 'values') as $nid => $negated_role) {
+            if(!in_array($negated_role, $users_roles)) {
+              $negate_flag &= true; 
+            } else {
+              $negate_flag &= false;
+            }
+          }
+          if ($negate_flag) {
+            $this->condition_met($context, $role);
+          }
         }
       }
     }
