@@ -20,11 +20,31 @@ class context_condition_user extends context_condition {
     return $values;
   }
 
+  function options_form($context){
+    $defaults = $this->fetch_from_context($context, 'options');
+    return array(
+        'negate_role' => array(
+        '#title' => t('Make role a negative condition'),
+        '#type' => 'checkbox',
+        '#description' => t("Checking this box will make this condition fire if the user's role is NOT one of the role's checked"),
+        '#default_value' => isset($defaults['negate_role']) ? $defaults['negate_role'] : 0,
+      ),
+    );
+   }
+
   function execute($account) {
-    $roles = $account->roles;
-    foreach ($roles as $rid => $role) {
+    $all_roles = user_roles();
+    $users_roles = $account->roles;
+    foreach ($all_roles as $rid => $role) {
       foreach ($this->get_contexts($role) as $context) {
-        $this->condition_met($context, $role);
+        $options = $this->fetch_from_context($context, 'options');
+        if ($options['negate_role'] == 0) {
+          if(in_array($role, $users_roles)){
+            $this->condition_met($context, $role);
+          }
+        } elseif (!in_array($role, $users_roles)) {
+          $this->condition_met($context, $role);
+        }
       }
     }
   }
