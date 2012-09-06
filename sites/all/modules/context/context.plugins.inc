@@ -35,7 +35,7 @@ function _context_context_registry() {
       'title' => t('User page'),
       'description' => t('Set this context when viewing a user page.'),
       'plugin' => 'context_condition_user_page',
-    ),
+    )
   );
   if (module_exists('menu')) {
     $registry['conditions']['menu'] = array(

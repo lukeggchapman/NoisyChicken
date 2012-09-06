@@ -23,7 +23,7 @@ class context_condition_user extends context_condition {
   function options_form($context){
     $defaults = $this->fetch_from_context($context, 'options');
     return array(
-        'negate_role' => array(
+      'negate_role' => array(
         '#title' => t('Make role a negative condition'),
         '#type' => 'checkbox',
         '#description' => t("Checking this box will make this condition fire if the user's role is NOT one of the role's checked"),
