@@ -1,0 +1,7 @@
+name = "Authored Context Condition"
+dependencies[] = "context"
+description = "Add a condition for when a user has authored a content type"
+package = "Context"
+core = "7.x"
+
+files[] = authored_condition.module

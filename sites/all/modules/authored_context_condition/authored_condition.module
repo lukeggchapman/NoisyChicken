@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Adds a context condition for when a user has created a content of type
+ */
+
+ /**
+ * Implements hook_context_plugins().
+ *
+ */
+function authored_condition_context_plugins() {
+	$plugins = array();
+	$plugins['authored_condition_context_condition_authored'] = array(
+		'handler' => array(
+			'path' => drupal_get_path('module', 'authored_condition'),
+			'file' => 'authored_condition_context_condition_authored.inc',
+			'class' => 'authored_condition_context_condition_authored',
+			'parent' => 'context_condition',
+		),
+	);
+	return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ *
+ */
+function authored_condition_context_registry() {
+	return array(
+		'conditions' => array(
+			'authored' => array(
+				'title' => t('Authored'),
+				'description' => t('Set this condition to determine if the user has authored a content of this type.'),
+				'plugin' => 'authored_condition_context_condition_authored',
+			),
+		),
+	);
+}
+
+/**
+ * Implements hook_init().
+ */
+function authored_condition_init() {
+	// Fire our context plugin when drupal inits.
+	if ($plugin = context_get_plugin('condition', 'authored')) {
+		global $user;
+		$plugin->execute($user);
+	}
+}
