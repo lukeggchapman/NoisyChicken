@@ -18,7 +18,7 @@ class authored_condition_context_condition_authored extends context_condition {
       'negate_role' => array(
         '#title' => t('Make authored a negative condition'),
         '#type' => 'checkbox',
-        '#description' => t("Checking this box will make this condition fire if the user's has NOT authored a content of type"),
+        '#description' => t("Checking this box will make this condition fire if the user's has NOT authored all content of type"),
         '#default_value' => isset($defaults['negate_role']) ? $defaults['negate_role'] : 0,
       ),
     );
@@ -29,10 +29,21 @@ class authored_condition_context_condition_authored extends context_condition {
     foreach (node_type_get_types() as $type) {
       foreach ($this->get_contexts($type->type) as $context) {
         $options = $this->fetch_from_context($context, 'options');
-        $nbr_authored = db_query('SELECT count(nid) as count FROM {node} WHERE type = :type AND uid = :uid', array(':uid' => $user->uid, ':type' => $type->type))->fetchField();
-        if ($options['negate_role'] == 0 && $nbr_authored > 0) {
-          $this->condition_met($context, $type->type);
-        } elseif ($options['negate_role'] && $nbr_authored == 0) {
+        $result = db_query('SELECT DISTINCT type FROM {node} WHERE uid = :uid', array(':uid' => $user->uid));;
+        $authored = array();
+        foreach ($result as $row) {
+          $authored[] = $row->type;
+        }
+        $type_values = $this->fetch_from_context($context, 'values');
+        $met = true;
+        foreach ($type_values as $type_key => $authored_type) {
+          if ($options['negate_role'] == 0 && !in_array($authored_type, $authored)) {
+            $met = false;
+          } elseif ($options['negate_role'] && in_array($authored_type, $authored)) {
+            $met = false;
+          }
+        }
+        if ($met) {
           $this->condition_met($context, $type->type);
         }
       }
