@@ -1,0 +1,7 @@
+name = "Private Message as a Contact Form"
+dependencies[] = "privatemsg"
+description = "Allows a private message to be used as a contact form"
+package = "Mail"
+core = "7.x"
+
+files[] = private_message_contact.module

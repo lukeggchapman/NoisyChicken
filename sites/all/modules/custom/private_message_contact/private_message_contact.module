@@ -1,0 +1,29 @@
+<?php
+/*
+ * Hooks into private new private message
+ */
+function private_message_contact_form_privatemsg_new_alter(&$form, &$form_state, $form_id) {
+	// Check if a default value is configured for the to field.
+	if (!empty($form['recipient']['#default_value'])) {
+		// Convert the recipient field to a value type and force the default value.
+		$form['recipient']= array(
+			'#type' => 'textfield',
+			'#value' => $form['recipient']['#default_value'],
+			'#title' => 'Send message to',
+			'#disabled'=> TRUE,
+			'#weight' => -10,
+		);
+	}
+	// Check if a default value is configured for the to field.
+	if (!empty($form['subject']['#default_value'])) {
+		// Convert the subjecy field to a value type and force the default value.
+		$form['subject']= array(
+			'#type' => 'textfield',
+			'#value' => $form['subject']['#default_value'],
+			'#title' => 'Subject',
+			'#disabled'=> TRUE,
+			'#weight' => -10,
+		);
+	}
+}
+?>
