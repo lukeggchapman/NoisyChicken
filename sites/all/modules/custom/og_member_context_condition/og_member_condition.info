@@ -1,0 +1,8 @@
+name = "OG Member Context Condition"
+dependencies[] = "context"
+dependencies[] = "og"
+description = "Add a condition for when a user is a member of an organic group"
+package = "Context"
+core = "7.x"
+
+files[] = og_member_context_condition.module

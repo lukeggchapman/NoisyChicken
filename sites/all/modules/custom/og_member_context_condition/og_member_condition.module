@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Adds a context condition for when a user is a member of an organic group
+ */
+
+ /**
+ * Implements hook_context_plugins().
+ *
+ */
+function og_member_condition_context_plugins() {
+	$plugins = array();
+	$plugins['og_member_condition_context_condition_og_member'] = array(
+		'handler' => array(
+			'path' => drupal_get_path('module', 'og_member_condition'),
+			'file' => 'og_member_condition_context_condition_og_member.inc',
+			'class' => 'og_member_condition_context_condition_og_member',
+			'parent' => 'context_condition',
+		),
+	);
+	return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ *
+ */
+function og_member_condition_context_registry() {
+	return array(
+		'conditions' => array(
+			'og_member' => array(
+				'title' => t('OG Member'),
+				'description' => t('Set this condition to determine if the user is a member of an organic group.'),
+				'plugin' => 'og_member_condition_context_condition_og_member',
+			),
+		),
+	);
+}
+
+/**
+ * Implements hook_init().
+ */
+function og_member_condition_init() {
+	// Fire our context plugin when drupal inits.
+	if ($plugin = context_get_plugin('condition', 'og_member')) {
+		global $user;
+		$plugin->execute($user);
+	}
+}
