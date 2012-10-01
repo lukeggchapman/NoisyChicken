@@ -344,12 +344,15 @@ function privatemsg_new($form, &$form_state, $recipients = array(), $subject = '
       $body      = $form_state['values']['body'];
     }
   }
-  if (!$thread_id && !empty($recipients_plain)) {
-    drupal_set_title(t('Write new message to @recipient', array('@recipient' => $recipients_plain)));
-  }
-  elseif (!$thread_id) {
-    drupal_set_title(t('Write new message'));
-  }
+	if (drupal_set_title() !== "Photographer Application") {
+		if (!$thread_id && !empty($recipients_plain)) {
+			drupal_set_title(t('Write new message to @recipient', array('@recipient' => $recipients_plain)));
+		}
+		elseif (!$thread_id) {
+			drupal_set_title(t('Write new message'));
+		}
+	}
+
 
   $form = array(
     '#access'   => (privatemsg_user_access('write privatemsg') || privatemsg_user_access('reply only privatemsg')),
